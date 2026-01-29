@@ -8,27 +8,18 @@ const public_users = express.Router();
 public_users.post("/register", (req, res) => {
     const { username, password } = req.body;
   
-    // Check if username or password is missing
     if (!username || !password) {
-      return res.status(400).json({
-        message: "Username and password are required"
-      });
+      return res.status(400).json({ message: "Username or password missing" });
     }
   
-    // Check if user already exists
-    if (users.some(user => user.username === username)) {
-      return res.status(409).json({
-        message: "User already exists"
-      });
+    if (isValid(username)) {
+      return res.status(409).json({ message: "User already exists" });
     }
   
-    // Register new user
     users.push({ username, password });
-  
-    return res.status(200).json({
-      message: "User successfully registered"
-    });
+    return res.status(200).json({ message: "User successfully registered" });
   });
+  
   
 
 // Get the book list available in the shop
